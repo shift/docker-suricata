@@ -1,0 +1,3 @@
+#/usr/bin/bash
+
+/usr/bin/killall -USR2 suricata

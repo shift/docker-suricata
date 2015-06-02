@@ -1,0 +1,34 @@
+# Suricata IDS
+
+Docker image inheritance:
+ * shift/ubuntu:15.04
+ * ubuntu:15.04
+
+## Volumes
+
+The following are exported:
+ * /etc/suricata
+ * /etc/suricata/rules
+ * /var/log/suricata
+
+## Ports
+
+None
+
+## Example usage
+
+```
+docker run --name=suricata --net=host --privileged=true \
+  -e DEVICE=eth0 \
+  -v /srv/suricata/volumes/suricata:/etc/suricata \
+  -v /srv/suricata/volumes/suricata/rules:/etc/suricata/rules \
+  -v /srv/suricata/volumes/logs/:/var/log/suricata \
+-d shift/suricata 
+```
+
+The container can take the following commands:
+ * update - Runs oinkmaster.
+ * build-info - Outputs the build information for Suricata.
+ * shell - Bash shell
+
+Given no params it will start Suricata.
