@@ -102,18 +102,6 @@ cat /tmp/zeustracker.txt | sed -n '/^[0-9]/p' | sed 's/$/ Zeus IP/' >> /etc/suri
 rm /tmp/zeustracker.txt
 
 #==============================================================================
-#SpyEye Tracker - IP Block List
-#==============================================================================
-
-wget https://spyeyetracker.abuse.ch/blocklist.php?download=ipblocklist -O /tmp/spyeyetracker.txt --no-check-certificate -N
-
-echo "# Generated: `date`" > /etc/suricata/iprep/spyeye_ip_block_list.txt
-
-cat /tmp/spyeyetracker.txt | sed -n '/^[0-9]/p' | sed 's/$/ Spyeye IP/' >> /etc/suricata/iprep/spyeye_ip_block_list.txt
-
-rm /tmp/spyeyetracker.txt
-
-#==============================================================================
 #Palevo Tracker - IP Block List
 #==============================================================================
 
