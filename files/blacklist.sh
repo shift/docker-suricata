@@ -25,18 +25,18 @@ unset LD_LIBRARY_PATH
 
 wget http://rules.emergingthreats.net/fwrules/emerging-Block-IPs.txt -O /tmp/emerging-Block-IPs.txt --no-check-certificate -N
 
-echo "# Generated: `date`" > /etc/suricata/iprep/emerging_threats_shadowserver_ips.txt
+echo "# Generated: `date`" > /etc/suricata/iprep/emerging_threats_abusech_ips.txt
 
-cat /tmp/emerging-Block-IPs.txt | sed -e '1,/# \Feodo/d' -e '/#/,$d' | sed -n '/^[0-9]/p' | sed 's/$/ Shadowserver IP/' >> /etc/suricata/iprep/emerging_threats_shadowserver_ips.txt
+cat /tmp/emerging-Block-IPs.txt | sed -e '1,/# \Feodo/d' -e '/#/,$d' | sed -n '/^[0-9]/p' | sed 's/$/ Abuse.ch C&C List/' >> /etc/suricata/iprep/emerging_threats_abusech_ips.tmp
 
 echo "# Generated: `date`" > /etc/suricata/iprep/emerging_threats_spamhaus_drop_ips.txt
 
 # apt-get install prips OR compile from source for rpm based https://gitlab.com/prips/prips
-cat /tmp/emerging-Block-IPs.txt | sed -e '1,/#Spamhaus DROP Nets/d' -e '/#/,$d' | xargs -n 1 prips | sed -n '/^[0-9]/p' | sed 's/$/ Spamhaus IP/' >> /etc/suricata/iprep/emerging_threats_spamhaus_drop_ips.txt
+cat /tmp/emerging-Block-IPs.txt | sed -e '1,/#Spamhaus DROP Nets/d' -e '/#/,$d' | xargs -n 1 prips | sed -n '/^[0-9]/p' | sed 's/$/ Spamhaus IP/' >> /etc/suricata/iprep/emerging_threats_spamhaus_drop_ips.tmp
 
 echo "# Generated: `date`" > /etc/suricata/iprep/emerging_threats_dshield_ips.txt
 
-cat /tmp/emerging-Block-IPs.txt | sed -e '1,/#Dshield Top Attackers/d' -e '/#/,$d' | xargs -n 1 prips | sed -n '/^[0-9]/p' | sed 's/$/ Dshield IP/' >> /etc/suricata/iprep/emerging_threats_dshield_ips.txt
+cat /tmp/emerging-Block-IPs.txt | sed -e '1,/#Dshield Top Attackers/d' -e '/#/,$d' | xargs -n 1 prips | sed -n '/^[0-9]/p' | sed 's/$/ Dshield IP/' >> /etc/suricata/iprep/emerging_threats_dshield_ips.tmp
 
 rm /tmp/emerging-Block-IPs.txt
 
@@ -48,7 +48,7 @@ wget http://rules.emergingthreats.net/blockrules/compromised-ips.txt -O /tmp/com
 
 echo "# Generated: `date`" > /etc/suricata/iprep/emerging_threats_compromised_ips.txt
 
-cat /tmp/compromised-ips.txt | sed -n '/^[0-9]/p' | sed 's/$/ Compromised IP/' >> /etc/suricata/iprep/emerging_threats_compromised_ips.txt
+cat /tmp/compromised-ips.txt | sed -n '/^[0-9]/p' | sed 's/$/ Compromised IP/' >> /etc/suricata/iprep/emerging_threats_compromised_ips.tmp
 
 rm /tmp/compromised-ips.txt
 
@@ -60,7 +60,7 @@ wget http://www.binarydefense.com/banlist.txt -O /tmp/binary_defense_ips.txt --n
 
 echo "# Generated: `date`" > /etc/suricata/iprep/binary_defense_ban_list.txt
 
-cat /tmp/binary_defense_ips.txt | sed -n '/^[0-9]/p' | sed 's/$/ Binary Defense IP/' >> /etc/suricata/iprep/binary_defense_ban_list.txt
+cat /tmp/binary_defense_ips.txt | sed -n '/^[0-9]/p' | sed 's/$/ Binary Defense IP/' >> /etc/suricata/iprep/binary_defense_ban_list.tmp
 
 rm /tmp/binary_defense_ips.txt
 
@@ -74,7 +74,7 @@ gzip -d /tmp/reputation.snort.gz
 
 echo "# Generated: `date`" > /etc/suricata/iprep/av_ip_rep_list.txt
 
-cat /tmp/reputation.snort | sed -n '/^[0-9]/p' | sed "s/# //">> /etc/suricata/iprep/av_ip_rep_list.txt
+cat /tmp/reputation.snort | sed -n '/^[0-9]/p' | sed "s/# //">> /etc/suricata/iprep/av_ip_rep_list.tmp
 
 rm /tmp/reputation.snort
 
@@ -86,7 +86,7 @@ wget https://sslbl.abuse.ch/blacklist/sslipblacklist.csv -O /tmp/sslipblacklist.
 
 echo "# Generated: `date`" > /etc/suricata/iprep/sslipblacklist.txt
 
-cat /tmp/sslipblacklist.csv | sed -n '/^[0-9]/p' | cut -d',' -f1,3 | sed "s/,/ /" | sed 's/$/ SSLBL IP/' >> /etc/suricata/iprep/sslipblacklist.txt
+cat /tmp/sslipblacklist.csv | sed -n '/^[0-9]/p' | cut -d',' -f1,3 | sed "s/,/ /" | sed 's/$/ SSLBL IP/' >> /etc/suricata/iprep/sslipblacklist.tmp
 
 rm /tmp/sslipblacklist.csv
 
@@ -98,7 +98,7 @@ wget https://zeustracker.abuse.ch/blocklist.php?download=ipblocklist -O /tmp/zeu
 
 echo "# Generated: `date`" > /etc/suricata/iprep/zeus_ip_block_list.txt
 
-cat /tmp/zeustracker.txt | sed -n '/^[0-9]/p' | sed 's/$/ Zeus IP/' >> /etc/suricata/iprep/zeus_ip_block_list.txt
+cat /tmp/zeustracker.txt | sed -n '/^[0-9]/p' | sed 's/$/ Zeus IP/' >> /etc/suricata/iprep/zeus_ip_block_list.tmp
 
 rm /tmp/zeustracker.txt
 
@@ -125,7 +125,7 @@ wget http://malc0de.com/bl/IP_Blacklist.txt -O /tmp/IP_Blacklist.txt --no-check-
 
 echo "# Generated: `date`" > /etc/suricata/iprep/malc0de_black_list.txt
 
-cat /tmp/IP_Blacklist.txt | sed -n '/^[0-9]/p' | sed 's/$/ Malc0de IP/' >> /etc/suricata/iprep/malc0de_black_list.txt
+cat /tmp/IP_Blacklist.txt | sed -n '/^[0-9]/p' | sed 's/$/ Malc0de IP/' >> /etc/suricata/iprep/malc0de_black_list.tmp
 
 rm /tmp/IP_Blacklist.txt
 
@@ -137,4 +137,16 @@ rm /tmp/IP_Blacklist.txt
 
 wget https://ransomwaretracker.abuse.ch/downloads/RW_IPBL.txt -O /tmp/ransomwaretracker.txt --no-check-certificate -N
 
-cat /tmp/ransomwaretracker.txt | sed -n '/^[0-9]/p' | sed 's/$/ Ransomware Tracker/' >> /opt/threatlists/ransomwaretracker_ip_block_list.txt
+echo "# Generated: `date`" > /etc/suricata/iprep/ransomwaretracker_ip_block_list.txt
+
+cat /tmp/ransomwaretracker.txt | sed -n '/^[0-9]/p' | sed 's/$/ Ransomware Tracker/' >> /etc/suricata/iprep/ransomwaretracker_ip_block_list.tmp
+
+#==============================================================================
+#Sorting and deduping IP lists
+#==============================================================================
+
+for i in `ls /etc/suricata/iprep/*.tmp | sed s/\.tmp//g`
+do
+	cat $i.tmp | sort | uniq > $i.txt
+	cat $i.txt > $i.tmp
+done
