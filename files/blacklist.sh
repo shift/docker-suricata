@@ -19,7 +19,7 @@
 unset LD_LIBRARY_PATH
 
 #==============================================================================
-#Emerging Threats - Shadowserver C&C List, Spamhaus DROP Nets, Dshield Top
+#Emerging Threats - Abuse.ch C&C List, Spamhaus DROP Nets, Dshield Top
 #Attackers
 #==============================================================================
 
@@ -27,10 +27,11 @@ wget http://rules.emergingthreats.net/fwrules/emerging-Block-IPs.txt -O /tmp/eme
 
 echo "# Generated: `date`" > /etc/suricata/iprep/emerging_threats_shadowserver_ips.txt
 
-cat /tmp/emerging-Block-IPs.txt | sed -e '1,/# \Shadowserver C&C List/d' -e '/#/,$d' | sed -n '/^[0-9]/p' | sed 's/$/ Shadowserver IP/' >> /etc/suricata/iprep/emerging_threats_shadowserver_ips.txt
+cat /tmp/emerging-Block-IPs.txt | sed -e '1,/# \Feodo/d' -e '/#/,$d' | sed -n '/^[0-9]/p' | sed 's/$/ Shadowserver IP/' >> /etc/suricata/iprep/emerging_threats_shadowserver_ips.txt
 
 echo "# Generated: `date`" > /etc/suricata/iprep/emerging_threats_spamhaus_drop_ips.txt
 
+# apt-get install prips OR compile from source for rpm based https://gitlab.com/prips/prips
 cat /tmp/emerging-Block-IPs.txt | sed -e '1,/#Spamhaus DROP Nets/d' -e '/#/,$d' | xargs -n 1 prips | sed -n '/^[0-9]/p' | sed 's/$/ Spamhaus IP/' >> /etc/suricata/iprep/emerging_threats_spamhaus_drop_ips.txt
 
 echo "# Generated: `date`" > /etc/suricata/iprep/emerging_threats_dshield_ips.txt
@@ -104,14 +105,17 @@ rm /tmp/zeustracker.txt
 #==============================================================================
 #Palevo Tracker - IP Block List
 #==============================================================================
+#==============================================================================
+# Palevo Tracker has been discontinued
+#==============================================================================
 
-wget https://palevotracker.abuse.ch/blocklists.php?download=ipblocklist -O /tmp/palevotracker.txt --no-check-certificate -N
+#wget https://palevotracker.abuse.ch/blocklists.php?download=ipblocklist -O /tmp/palevotracker.txt --no-check-certificate -N
 
-echo "# Generated: `date`" > /etc/suricata/iprep/palevo_ip_block_list.txt
+#echo "# Generated: `date`" > /etc/suricata/iprep/palevo_ip_block_list.txt
 
-cat /tmp/palevotracker.txt | sed -n '/^[0-9]/p' | sed 's/$/ Palevo IP/' >> /etc/suricata/iprep/palevo_ip_block_list.txt
+#cat /tmp/palevotracker.txt | sed -n '/^[0-9]/p' | sed 's/$/ Palevo IP/' >> /etc/suricata/iprep/palevo_ip_block_list.txt
 
-rm /tmp/palevotracker.txt
+#rm /tmp/palevotracker.txt
 
 #==============================================================================
 #Malc0de - Malc0de Blacklist
@@ -125,3 +129,12 @@ cat /tmp/IP_Blacklist.txt | sed -n '/^[0-9]/p' | sed 's/$/ Malc0de IP/' >> /etc/
 
 rm /tmp/IP_Blacklist.txt
 
+#==============================================================================
+#Ransomware Tracker - IP Block List
+#==============================================================================
+
+# added by https://github.com/mary-cordova
+
+wget https://ransomwaretracker.abuse.ch/downloads/RW_IPBL.txt -O /tmp/ransomwaretracker.txt --no-check-certificate -N
+
+cat /tmp/ransomwaretracker.txt | sed -n '/^[0-9]/p' | sed 's/$/ Ransomware Tracker/' >> /opt/threatlists/ransomwaretracker_ip_block_list.txt
