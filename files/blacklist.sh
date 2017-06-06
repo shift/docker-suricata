@@ -148,6 +148,5 @@ cat /tmp/ransomwaretracker.txt | sed -n '/^[0-9]/p' | sed 's/$/ Ransomware Track
 for i in `ls /etc/suricata/iprep/*.tmp | sed s/\.tmp//g`
 do
 	cat $i.tmp | sort | uniq > $i.txt
+	cat $i.txt > $i.tmp
 done
-
-yes | rm /etc/suricata/iprep/*.tmp
