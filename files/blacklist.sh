@@ -25,9 +25,9 @@ unset LD_LIBRARY_PATH
 
 wget http://rules.emergingthreats.net/fwrules/emerging-Block-IPs.txt -O /tmp/emerging-Block-IPs.txt --no-check-certificate -N
 
-echo "# Generated: `date`" > /etc/suricata/iprep/emerging_threats_shadowserver_ips.txt
+echo "# Generated: `date`" > /etc/suricata/iprep/emerging_threats_abusech_ips.txt
 
-cat /tmp/emerging-Block-IPs.txt | sed -e '1,/# \Feodo/d' -e '/#/,$d' | sed -n '/^[0-9]/p' | sed 's/$/ Shadowserver IP/' >> /etc/suricata/iprep/emerging_threats_shadowserver_ips.tmp
+cat /tmp/emerging-Block-IPs.txt | sed -e '1,/# \Feodo/d' -e '/#/,$d' | sed -n '/^[0-9]/p' | sed 's/$/ Abuse.ch C&C List/' >> /etc/suricata/iprep/emerging_threats_abusech_ips.tmp
 
 echo "# Generated: `date`" > /etc/suricata/iprep/emerging_threats_spamhaus_drop_ips.txt
 
@@ -148,5 +148,6 @@ cat /tmp/ransomwaretracker.txt | sed -n '/^[0-9]/p' | sed 's/$/ Ransomware Track
 for i in `ls /etc/suricata/iprep/*.tmp | sed s/\.tmp//g`
 do
 	cat $i.tmp | sort | uniq > $i.txt
-	yes | rm /etc/suricata/iprep/*.tmp
 done
+
+yes | rm /etc/suricata/iprep/*.tmp
